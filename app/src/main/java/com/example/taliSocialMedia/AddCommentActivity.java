@@ -1,6 +1,5 @@
 package com.example.taliSocialMedia;
 
-package com.example.taliSocialMedia;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -65,23 +65,22 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Password or email doesn't match", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else {
-                    Intent myIntent = new Intent(MainActivity.this, PostActivity.class);
-
-                    // Get Uri from Intent
-                    Uri userImage= Uri.parse("android.resource://com.example.taliSocialMedia/drawable/headshot");
-                    myIntent.setData(userImage);
-                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    myIntent.putExtra("firstname", "Aviel");
-                    myIntent.putExtra("email", "aviel@gmail.com");
-                    myIntent.putExtra("indicator", "main");
-                    //myIntent.putExtra("password", userInputPassword);
-                    startActivity(myIntent);
-
-                  //  Toast.makeText(MainActivity.this, "Password or username doesn't match", Toast.LENGTH_SHORT).show();
+//                else {
+//                    Intent myIntent = new Intent(MainActivity.this, PostActivity.class);
+//
+//                    // Get Uri from Intent
+//                    Uri userImage= Uri.parse("android.resource://com.example.taliSocialMedia/drawable/headshot");
+//                    myIntent.setData(userImage);
+//                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    myIntent.putExtra("firstname", "Aviel");
+//                    myIntent.putExtra("email", "aviel@gmail.com");
+//                    myIntent.putExtra("indicator", "main");
+//                    //myIntent.putExtra("password", userInputPassword);
+//                    startActivity(myIntent);
+//
+//                  //  Toast.makeText(MainActivity.this, "Password or username doesn't match", Toast.LENGTH_SHORT).show();
                 }
 
-            }
         });
 
 
