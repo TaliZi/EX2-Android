@@ -1,4 +1,4 @@
-# Ex2---android
+# Ex2-android
 ## This project is the front end of the adinroid application of facebook.
 ### Made by: Tali Zikel, Aviya Megiddo Shaked, and Michal Magid.
 
