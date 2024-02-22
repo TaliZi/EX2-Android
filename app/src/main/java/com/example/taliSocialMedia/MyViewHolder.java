@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView imageView,like,delete,addComment,editPost,share,postPhoto;
-    TextView nameView, messageView,dateView;
-
+    // Views in the item view layout
+    ImageView imageView, like, delete, addComment, editPost, share, postPhoto;
+    TextView nameView, messageView, dateView;
     RelativeLayout relativeLayout;
 
+    // Constructor to initialize views
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
+        // Finding views by their IDs in the item view layout
         imageView = itemView.findViewById(R.id.imageview);
         nameView = itemView.findViewById(R.id.name);
         messageView = itemView.findViewById(R.id.message);

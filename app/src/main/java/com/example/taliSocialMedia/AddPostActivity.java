@@ -24,24 +24,21 @@ import android.widget.Toast;
 public class AddPostActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 1234;
 
-    Uri photoForPost=null;
+    // Uri for the selected photo to be attached to the post
+    Uri photoForPost = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
 
-        Button backButton,submitPostBTN,addImageBtn;
+        // Declare UI elements
+        Button backButton, submitPostBTN, addImageBtn;
         EditText userMessage;
         ImageView userImage;
         TextView userFirstName;
 
-        /*
-
-        We come here from PostActivity to create a new post.
-
-         */
-
-
+        // Initialize UI elements
         backButton = findViewById(R.id.goBackBTN);
         userMessage = findViewById(R.id.usermessageET);
         userMessage.setText("");
@@ -50,31 +47,28 @@ public class AddPostActivity extends AppCompatActivity {
         submitPostBTN = findViewById(R.id.finishBTN);
         addImageBtn = findViewById(R.id.postAddPicture);
 
+        // Retrieve extras passed from previous activity
         Bundle extras = getIntent().getExtras();
 
+        // Set user image and first name
         userImage.setImageURI(getIntent().getData());
         userFirstName.setText(extras.getString("firstname"));
 
-
-
-
-
-
-
-
-
+        // Button click listener for submitting a post
         submitPostBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(photoForPost==null){
+                // Check if a photo is selected
+                if (photoForPost == null) {
                     Toast.makeText(AddPostActivity.this, "Must choose image", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
+                    // Create intent to navigate back to PostActivity
                     Intent myIntent = new Intent(AddPostActivity.this, PostActivity.class);
                     Date c = Calendar.getInstance().getTime();
                     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     String formattedDate = df.format(c);
 
+                    // Attach data to the intent
                     myIntent.setData(getIntent().getData());
                     myIntent.putExtra("firstname", extras.getString("firstname"));
                     myIntent.putExtra("indicator", "afterPost");
@@ -82,14 +76,16 @@ public class AddPostActivity extends AppCompatActivity {
                     myIntent.putExtra("message", userMessage.getText().toString());
                     myIntent.putExtra("date", formattedDate);
                     myIntent.putExtra("postImage", photoForPost.toString());
-                    startActivity(myIntent);
+                    startActivity(myIntent); // Start PostActivity
                 }
             }
         });
 
+        // Button click listener for adding an image to the post
         addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Open gallery to select an image
                 Intent i = new Intent();
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
@@ -97,27 +93,25 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
 
-
+        // Button click listener for going back
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                onBackPressed(); // Go back to previous screen
             }
         });
-
     }
 
-
+    // Handle result after selecting an image from the gallery
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // After coming back from camera/gallery , we check where we came back from, and act accordingly
-           if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-            // Get the url of the image from data
+        // Check if the result is from selecting an image from the gallery
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            // Get the URI of the selected image
             Uri selectedImageUri = data.getData();
             if (null != selectedImageUri) {
-                photoForPost=selectedImageUri;
+                photoForPost = selectedImageUri; // Set the selected image URI
             }
         }
     }
-
 }

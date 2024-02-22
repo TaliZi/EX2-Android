@@ -15,19 +15,14 @@ public class Item {
     boolean isitliked,isPostByCurrentUser,isHeadlineInComments;
 
 
-/*
+    /*
+    Here we use different constructors for different items.
+    Example of different items:
+    - Some items use stock photos from the app.
+    - Some items use new photos from the camera/gallery of the user.
+    - Some items have a picture in them (post items have pictures, comments do not).
+    */
 
-Here we use different constructors for different items.
-Example of different items:
-
-Because some items use stock photos from the app
-Some items use new photos from the camera/gallery of the user
-Some items have a picture in them (post items have pictures, comments do not)
-etc etc...
-
-
-
- */
     public Item(String name, String message, int image, String date, int like, boolean isitliked, String email, boolean isPostByCurrentUser, boolean isHeadlineInComments) {
         this.name = name;
         this.email = email;
@@ -40,6 +35,7 @@ etc etc...
         this.isHeadlineInComments=isHeadlineInComments;
     }
 
+    // Constructor for an item with an image resource and a post photo
     public Item(String name, String message, int image, String date, int like, boolean isitliked, String email, boolean isPostByCurrentUser, boolean isHeadlineInComments,Uri postPhoto) {
         this.name = name;
         this.email = email;
@@ -54,7 +50,7 @@ etc etc...
     }
 
 
-
+    // Constructor for an item with a URI image and a post photo
     public Item(String name, String message, Uri image, String date, int like, boolean isitliked, String email, boolean isPostByCurrentUser, boolean isHeadlineInComments, Uri postPhoto) {
         this.name = name;
         this.email = email;
@@ -85,6 +81,7 @@ etc etc...
                 '}';
     }
 
+    // Constructor for an item with an image resource
     public Item(String name, String message, Uri image, String date, int like, boolean isitliked, String email, boolean isPostByCurrentUser,boolean isHeadlineInComments) {
         this.name = name;
         this.email = email;
@@ -98,6 +95,8 @@ etc etc...
 
     }
 
+
+    // Getters and setters
     public String getName() {
         return name;
     }

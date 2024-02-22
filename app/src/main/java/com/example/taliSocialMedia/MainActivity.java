@@ -18,16 +18,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView Title,gotoRegister;
-        EditText emailET,passwordET;
+        // Initialize UI elements
+        TextView Title, gotoRegister;
+        EditText emailET, passwordET;
         Button enterBTN;
 
+        // Find UI elements by their IDs
         Title = findViewById(R.id.title_TV);
         enterBTN = findViewById(R.id.enterBTN);
         emailET = findViewById(R.id.useremailET);
         passwordET = findViewById(R.id.passwordET);
         gotoRegister = findViewById(R.id.registerTV);
 
+        // Click listener for "Register" TextView
         gotoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,57 +38,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Click listener for "Enter" Button
         enterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Get extras from the intent
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {
-                    String storedpassword,storedemail,firstname,userInputEmail,userInputPassword;
-                    storedemail=extras.getString("email");
-                    storedpassword=extras.getString("password");
-                    firstname=extras.getString("firstname");
+                    // Retrieve stored email, password, and firstname
+                    String storedpassword, storedemail, firstname, userInputEmail, userInputPassword;
+                    storedemail = extras.getString("email");
+                    storedpassword = extras.getString("password");
+                    firstname = extras.getString("firstname");
 
+                    // Get user input email and password
                     userInputEmail = emailET.getText().toString();
                     userInputPassword = passwordET.getText().toString();
 
-                    if(storedemail.equals(userInputEmail) && storedpassword.equals(userInputPassword)) {
+                    // Check if the entered email and password match the stored ones
+                    if (storedemail.equals(userInputEmail) && storedpassword.equals(userInputPassword)) {
+                        // If matched, create intent to start PostActivity
                         Intent myIntent = new Intent(MainActivity.this, PostActivity.class);
 
                         // Get Uri from Intent
-                        Uri userImage=getIntent().getData();
+                        Uri userImage = getIntent().getData();
                         myIntent.setData(userImage);
-                        myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK &(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+
+                        // Add flags to the intent
+                        myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+
+                        // Put extras to the intent
                         myIntent.putExtra("firstname", firstname);
                         myIntent.putExtra("email", emailET.getText().toString());
                         myIntent.putExtra("indicator", "main");
-                      //myIntent.putExtra("password", userInputPassword);
+
+                        // Start the activity
                         startActivity(myIntent);
-                    }
-                    else{
+                    } else {
+                        // If not matched, show a toast message
                         Toast.makeText(MainActivity.this, "Password or email doesn't match", Toast.LENGTH_SHORT).show();
                     }
                 }
-//                else {
-//                    Intent myIntent = new Intent(MainActivity.this, PostActivity.class);
-//
-//                    // Get Uri from Intent
-//                    Uri userImage= Uri.parse("android.resource://com.example.taliSocialMedia/drawable/headshot");
-//                    myIntent.setData(userImage);
-//                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    myIntent.putExtra("firstname", "Aviel");
-//                    myIntent.putExtra("email", "aviel@gmail.com");
-//                    myIntent.putExtra("indicator", "main");
-//                    //myIntent.putExtra("password", userInputPassword);
-//                    startActivity(myIntent);
-//
-//                  //  Toast.makeText(MainActivity.this, "Password or username doesn't match", Toast.LENGTH_SHORT).show();
-                }
-
+            }
         });
-
-
-
-
-
     }
 }

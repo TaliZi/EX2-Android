@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 1234;
     Uri userimage=null;
 
-    // used for email validation using regex
+    // Regular expression pattern for validating email addresses
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Override
@@ -36,8 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText useremailET,passwordET,confirmpassET,firstnameET;
         Button registerBTN,imageFromGalleryBTN,imageFromCameraBTN;
 
-
-
+        // Initializing views
         errorTV = findViewById(R.id.errorTV);
         gobackTV = findViewById(R.id.gobackTV);
         useremailET = findViewById(R.id.useremailET);
@@ -48,20 +47,21 @@ public class RegisterActivity extends AppCompatActivity {
         imageFromGalleryBTN = findViewById(R.id.imageFromGalleryBTN);
         imageFromCameraBTN = findViewById(R.id.imageFromCameraBTN);
 
-
         errorTV.setVisibility(View.GONE);
 
+        // Register button click listener
         registerBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email,password,confirmpass,firstname;
 
+                // Getting user inputs
                 firstname = firstnameET.getText().toString();
                 email = useremailET.getText().toString();
                 password = passwordET.getText().toString();
                 confirmpass = confirmpassET.getText().toString();
 
-
+                // Validation checks for user inputs
                 if (firstname.length() < 2){
                     errorTV.setVisibility(View.VISIBLE);
                     errorTV.setText("* Username length must be 2 or more");
@@ -70,7 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
                     errorTV.setVisibility(View.VISIBLE);
                     errorTV.setText("* Name must not contain numbers");
                 }
-
                 else if(!validate(email))
                 {
                     errorTV.setVisibility(View.VISIBLE);
@@ -92,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                     errorTV.setText("Please upload an image");
                 }
                 else{
+                    // Registration complete, navigate to MainActivity
                     Toast.makeText(RegisterActivity.this, "Registration complete", Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(RegisterActivity.this, MainActivity.class);
                     myIntent.setData(userimage);
@@ -100,12 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
                     myIntent.putExtra("password",password);
                     startActivity(myIntent);
                 }
-
-
             }
         });
 
-
+        // "Go back" TextView click listener
         gobackTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // Image from gallery button click listener
         imageFromGalleryBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // Image from camera button click listener
         imageFromCameraBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,34 +132,29 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    // Method to handle result from camera/gallery selection
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // After coming back from camera/gallery , we check where we came back from, and act accordingly
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            // Main goal here is to convert bitmap to URI
-
-            // 1) Get bitmap of captured image
-            // 2) Compress it and store it
-            // 3) *Uri*.parse the path to the image
+            // Get bitmap of captured image, compress it, and store it
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             photo.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+            // Insert image into MediaStore and retrieve URI
             String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), photo, "My photo", null);
-
-            // Now we have a URI (what we wanted) and we can set userImage.
-            userimage=Uri.parse(path);;
-        }
-
-        else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-                // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    userimage=selectedImageUri;
+            // Convert path to URI and set userimage
+            userimage=Uri.parse(path);
+        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            // Get the URI of the selected image from data
+            Uri selectedImageUri = data.getData();
+            if (null != selectedImageUri) {
+                userimage=selectedImageUri;
             }
         }
     }
 
-
+    // Method to validate email using regex
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.matches();
