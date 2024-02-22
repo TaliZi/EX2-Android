@@ -46,6 +46,9 @@ This code defines a Java interface named `RecyclerViewInterface`, which declares
 ### RegisterActivity
 This code defines an activity named `RegisterActivity`, which allows users to register for a social media app. It includes functionalities for validating user inputs such as email, password, and username, as well as enabling users to upload a profile picture either from the device's gallery or by taking a photo with the camera. Upon successful registration, the user's information, including email, first name, password, and profile picture URI, is passed to the main activity for further processing.
 
+### users.json
+This JSON data represents sample user posts and comments for a social media app. The "Users" array contains information about users' posts, including their names, messages, email addresses, dates, and possibly profile images. The "Comments" array includes comments made by other users on the posts, with details such as the commenter's name, message, email, date, and the email of the post they commented on ("commentFor"). This data can be used to populate the social media app's interface with posts and comments for users to interact with.
+
 
 
 
