@@ -66,13 +66,17 @@ public class UsersActivity extends AppCompatActivity {
         // Set click listener for RecyclerView items
         userListAdapter.setOnItemClickListener(new UsersAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, boolean isPrimary) {
                 User user = userListAdapter.getUsers().get(position);
                 User currentUser = userListAdapter.getCurrentUser();
                 if (currentUser.getFriends().contains(user.getId())) {
                     unfriendUser(user);
                 } else if (currentUser.getFriendRequestsReceived().contains(user.getId())) {
-                    approveFriendRequest(user);
+                    if (isPrimary) {
+                        approveFriendRequest(user);
+                    } else {
+                        declineFriendRequest(user);
+                    }
                 } else if (currentUser.getFriendRequestsSent().contains(user.getId())) {
                     // nothing to do
                 } else {
@@ -105,6 +109,17 @@ public class UsersActivity extends AppCompatActivity {
 
     private void approveFriendRequest(User user) {
         viewModel.approveFriendRequest(user.getId()).observe(this, new Observer<ResponseResult>() {
+            @Override
+            public void onChanged(ResponseResult result) {
+                if (!result.isSuccess()) {
+                    Toast.makeText(UsersActivity.this, result.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void declineFriendRequest(User user) {
+        viewModel.declineFriendRequest(user.getId()).observe(this, new Observer<ResponseResult>() {
             @Override
             public void onChanged(ResponseResult result) {
                 if (!result.isSuccess()) {

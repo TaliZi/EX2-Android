@@ -58,6 +58,9 @@ public interface WebApi {
     @PATCH("/api/users/{recipient}/approve-friend-request")
     Call<ResponseBody> approveFriendRequest(@Path("recipient") String recipient, @Body FriendRequest request, @Header("Authorization") String token);
 
+    @PATCH("/api/users/{id}/decline-friend-request")
+    Call<ResponseBody> declineFriendRequest(@Path("id") String userId, @Body FriendRequest request, @Header("Authorization") String token);
+
     @DELETE("/api/users/{id}/friends/{friend_id}")
     Call<ResponseBody> unfriend(@Path("id") String userId, @Path("friend_id") String friendId, @Header("Authorization") String token);
 }

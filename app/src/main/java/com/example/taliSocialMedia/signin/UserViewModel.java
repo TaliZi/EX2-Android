@@ -50,4 +50,8 @@ public class UserViewModel extends AndroidViewModel {
     public LiveData<ResponseResult> unfriend(String friendId) {
         return userRepository.unfriend(friendId);
     }
+
+    public LiveData<ResponseResult> declineFriendRequest(String targetUserId) {
+        return userRepository.declineFriendRequest(targetUserId);
+    }
 }

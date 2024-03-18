@@ -27,7 +27,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, boolean isPrimary);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -86,16 +86,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.userNameTextView.setText(user.getName());
-        holder.friendButton.setEnabled(true);
+        holder.friendSecondaryButton.setVisibility(View.GONE);
+        holder.friendPrimaryButton.setEnabled(true);
         if (currentUser.getFriends().contains(user.getId())) {
-            holder.friendButton.setImageResource(R.drawable.baseline_delete_outline_24);
+            holder.friendPrimaryButton.setImageResource(R.drawable.baseline_delete_outline_24);
         } else if (currentUser.getFriendRequestsReceived().contains(user.getId())) {
-            holder.friendButton.setImageResource(R.drawable.baseline_check_24);
+            holder.friendPrimaryButton.setImageResource(R.drawable.baseline_check_24);
+            holder.friendSecondaryButton.setImageResource(R.drawable.baseline_close_24);
+            holder.friendSecondaryButton.setVisibility(View.VISIBLE);
         } else if (currentUser.getFriendRequestsSent().contains(user.getId())) {
-            holder.friendButton.setImageResource(R.drawable.baseline_call_made_24);
-            holder.friendButton.setEnabled(false);
+            holder.friendPrimaryButton.setImageResource(R.drawable.baseline_call_made_24);
+            holder.friendPrimaryButton.setEnabled(false);
         } else {
-            holder.friendButton.setImageResource(R.drawable.baseline_add_circle_24);
+            holder.friendPrimaryButton.setImageResource(R.drawable.baseline_add_circle_24);
         }
 
         if (user.getImage() != null) {
@@ -122,13 +125,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userNameTextView;
         CircleImageView userImage;
-        ImageButton friendButton;
+        ImageButton friendPrimaryButton;
+        ImageButton friendSecondaryButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             userNameTextView = itemView.findViewById(R.id.userNameTextView);
-            friendButton = itemView.findViewById(R.id.friendButton);
-            friendButton.setOnClickListener(this);
+            friendPrimaryButton = itemView.findViewById(R.id.friend_button_one);
+            friendPrimaryButton.setOnClickListener(this);
+            friendSecondaryButton = itemView.findViewById(R.id.friend_button_two);
+            friendSecondaryButton.setOnClickListener(this);
             userImage = itemView.findViewById(R.id.user_photo);
         }
 
@@ -137,7 +143,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             if (listener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position);
+                    listener.onItemClick(position, v == friendPrimaryButton);
                 }
             }
         }

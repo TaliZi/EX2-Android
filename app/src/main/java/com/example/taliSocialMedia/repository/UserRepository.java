@@ -210,6 +210,36 @@ public class UserRepository {
         return status;
     }
 
+    public LiveData<ResponseResult> declineFriendRequest(String targetUserId) {
+        MutableLiveData<ResponseResult> status = new MutableLiveData<>();
+
+        String userId = UserRepository.getUserId(application);
+        String token = UserRepository.getToken(application);
+
+        FriendRequest.UserInFriendRequest ur = new FriendRequest.UserInFriendRequest(userId);
+        FriendRequest request = new FriendRequest(ur);
+
+        apiInterface.declineFriendRequest(targetUserId, request, token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    status.setValue(new ResponseResult(true, null));
+                    fetchAllUsers();
+                } else {
+                    String errorMessage = parseErrorMessage(response.errorBody());
+                    status.setValue(new ResponseResult(false, errorMessage));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                status.setValue(new ResponseResult(false, "Network error"));
+            }
+        });
+
+        return status;
+    }
+
     public LiveData<ResponseResult> unfriend(String friendId) {
         MutableLiveData<ResponseResult> status = new MutableLiveData<>();
 
