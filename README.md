@@ -1,5 +1,5 @@
 # Ex2-android
-# NOTE: EX3 version of the project was submitted on 18/3/24. So if you want to check exercise number 3, please go to the branch named; "EX3-new-main". the link to the new repo: https://github.com/TaliZi/EX2-Android.git
+# NOTE: EX3 version of the project was submitted on 18/3/24. So if you want to check exercise number 3, please go to the branch named: "EX3-new-main". the link to the new repo: https://github.com/TaliZi/EX2-Android.git
 ## This project is the front end of the Android application of facebook.
 ### Made by: Tali Zikel, Aviya Megiddo Shaked, and Michal Magid.
 
