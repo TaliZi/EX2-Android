@@ -1,5 +1,5 @@
 # Ex3-android
-## This project is the front end of the web application of facebook.
+## This project is the front end of the Android application of facebook.
 
 ### Made by: Tali Zikel, Aviya Megiddo Shaked, and Michal Magid.
 
